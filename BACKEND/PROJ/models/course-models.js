@@ -21,6 +21,7 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: [true, "Course category is required"],
       trim: true,
+      lowercase :true,
       enum: {
         values: [
           "frontend",
@@ -55,6 +56,7 @@ const courseSchema = new mongoose.Schema(
     level: {
       type: String,
       required: [true, "Course level is required"],
+      lowercase:true,
       enum: {
         values: ["beginner", "intermediate", "advanced"],
         message: "Level must be Beginner, Intermediate, or Advanced",

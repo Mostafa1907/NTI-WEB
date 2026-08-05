@@ -22,8 +22,8 @@ const getAllCourses = async (req, res) => {
  
 const createCourse = async (req, res) => {
   try {
-    const category = req.body.category?.toLowerCase();
-    const level = req.body.level?.toLowerCase();
+    const category = req.body.category
+    const level = req.body.level
  
     const newCourse = await Course.create({
       ...req.body,
@@ -70,8 +70,8 @@ const getCourseById = async (req, res) => {
  
 const updateCourse = async (req, res) => {
   try {
-    if (req.body.category) req.body.category = req.body.category.toLowerCase();
-    if (req.body.level) req.body.level = req.body.level.toLowerCase();
+    if (req.body.category){ req.body.category = req.body.category.toLowerCase()}
+    if (req.body.level){ req.body.level = req.body.level.toLowerCase()}
  
     const updatedCourse = await Course.findByIdAndUpdate(
       req.params.id,
