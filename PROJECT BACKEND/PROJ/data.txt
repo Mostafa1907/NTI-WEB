@@ -1,0 +1,6 @@
+mongoDB
+user : NTI-WEB
+
+pass :STF6PtvNPOyUrcwE
+
+mongodb+srv://NTI-WEB:STF6PtvNPOyUrcwE@cluster0.sv21z5m.mongodb.net/?appName=Cluster0
