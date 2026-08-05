@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "MAhhhh",
+    "instructor": "baba ",
+    "category": "Bd",
+    "price": 500,
+    "duration": "1s",
+    "level": "adssdadas",
+    "rating": 15614,
+    "students": 1,
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800"
+  },
+  {
+    "id": 2,
+    "title": "asdfff",
+    "instructor": "badfsfsfsfba ",
+    "category": "Bacddsfddkend",
+    "price": 5000000000000000,
+    "duration": "10 hours",
+    "level": "adssdaddsfsdfdsfdsas",
+    "rating": 15678514,
+    "students": 1200,
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800"
+  }
+]
