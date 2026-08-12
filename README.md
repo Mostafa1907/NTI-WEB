@@ -24,7 +24,7 @@ A RESTful API built with Node.js, Express.js, and MongoDB for managing courses.
 - Multer
 - dotenv
 
-================================================
+
 
 ## How to Run the Project
 
@@ -42,7 +42,7 @@ A RESTful API built with Node.js, Express.js, and MongoDB for managing courses.
 
 The API will run on the configured port.
 
-===============================================
+
 
 ## API Usage Examples
 
