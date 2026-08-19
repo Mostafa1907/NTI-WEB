@@ -72,6 +72,10 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    customers: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
