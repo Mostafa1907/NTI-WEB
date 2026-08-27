@@ -1,6 +1,6 @@
-const fs = require("fs");
 const Product = require("../models/market-models");
 const deleteUploadedFile = require("../utils/delete-uploaded-file")
+const User = require("../models/user-models");
 
 const getAllProducts = async (req, res) => {
   try {
@@ -23,12 +23,8 @@ const getAllProducts = async (req, res) => {
  
 const createProduct = async (req, res) => {
   try {
-    const category = req.body.category
-   
- 
-    const newProduct = await Product.create({
+      const newProduct = await Product.create({
       ...req.body,
-      category,
       imageUrl:req.file?.filename
     });
  
@@ -67,7 +63,7 @@ const getProductById = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: "error",
-      message: `Failed to create product: ${error.message}`,
+      message: `Failed to get product: ${error.message}`,
     });
   }
 };
@@ -83,18 +79,17 @@ const updateProduct = async (req, res) => {
         .status(404)
         .json({ status: "error", message: "Product not found" });
     }
-      
-    if (req.body.category){ req.body.category = req.body.category}
-    
+        
      if(req.file){
       req.body.imageUrl=req.file.filename
       if(product.imageUrl){
         deleteUploadedFile("products",product.imageUrl)
       }
     }
+        const updatedProduct= await product.save()
+
 
     Object.assign(product,req.body)
-    const updatedProduct= await product.save()
 
     res.status(200).json({
       status: "success",
@@ -114,12 +109,17 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
- 
+   
     if (!deletedProduct) {
       return res
         .status(404)
         .json({ status: "error", message: "Product not found" });
     }
+
+     await User.updateMany(
+    { myProducts: req.params.id },
+    { $pull: { myProducts: req.params.id } })
+
     if (deletedProduct.imageUrl){
       deleteUploadedFile("products",deletedProduct.imageUrl)
     }

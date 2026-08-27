@@ -16,6 +16,11 @@ router
     authenticateMiddleware,
     authorizeMiddleware("customer"),
     userControllers.addProductToUser,
-  );
+  )
+  .delete(
+    authenticateMiddleware,
+    authorizeMiddleware("customer"),
+    userControllers.removeProductFromUser
+  )
  
 module.exports = router;

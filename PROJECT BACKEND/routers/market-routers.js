@@ -1,10 +1,8 @@
 const express = require("express")
 const marketControllers=require ("../controllers/market-controllers")
-const multer = require ("multer")
-const fs = require("fs")
-const authorizeMiddleware = require ("../middleWares/authorize-middleware")
-const authenticateMiddleware =require("../middleWares/authenticate-middleware")
-const upload= require("../middleWares/multer-middleware")
+const authorizeMiddleware = require ("../middlewares/authorize-middleware")
+const authenticateMiddleware =require("../middlewares/authenticate-middleware")
+const upload= require("../middlewares/multer-middleware")
 
 
 const router = express.Router()    

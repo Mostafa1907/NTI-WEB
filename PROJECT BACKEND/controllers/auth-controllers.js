@@ -5,9 +5,23 @@ const bcryptjs = require("bcryptjs")
 
 const signup = async (req, res) => {
   try {
+    
+    const allowedRoles = ["customer", "admin"];
+    let role = allowedRoles.includes(req.body.role) ? req.body.role : "customer";
+
+    if (role === "admin") {
+      const existingAdmin = await User.findOne({ role: "admin" });
+      if (existingAdmin) {
+        return res.status(403).json({
+          status: "fail",
+          message: "An admin account already exists. Only one admin is allowed.",
+        });
+      }
+    }
+
     const user = await User.create({
       ...req.body,
-      role: "customer",
+      role,
       imageUrl: req.file?.filename,
     });
 
@@ -59,7 +73,7 @@ const signin = async (req, res) => {
 
     const token = generateToken(user);
 
-    res.status(200).json({ status: "Login success", token, data: { user } });
+    res.status(200).json({ status: "success", token, data: { user } });
   } catch (error) {
     res
       .status(400)

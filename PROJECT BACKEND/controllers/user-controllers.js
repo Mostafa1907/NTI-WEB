@@ -1,20 +1,21 @@
 const User =require("../models/user-models")
-
 const Product = require("../models/market-models")
 
-
 const addProductToUser=async(req,res)=>{
-    try{
+    try
+    {
         const user = await User.findById(req.userId)
 
-        if(!user){
+        if(!user)
+        {
             return res.status(404).json({status:"fail",message:"User Not Found"})
         }
         
         const {productId}=req.body
         const  product = await Product.findById(productId)
        
-        if(!product){
+        if(!product)
+        {
             return res.status(404).json({status:"fail",message:"product Not Found"})
         }
 
@@ -25,7 +26,6 @@ const addProductToUser=async(req,res)=>{
                 message:"Product already added"
             })
         }
-
         user.myProducts.push(productId)
         product.customers +=1
         await product.save()
@@ -38,37 +38,91 @@ const addProductToUser=async(req,res)=>{
                 myProducts:user.myProducts
             }
         })
-
-
-
-    }catch(err){
+    }catch(err)
+    {
         res.status(400).json({
             status:"error",
             message:`Error in adding product : ${err.message}`
         })
     }
 }
+const removeProductFromUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
+
+    const { productId } = req.body;
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Product not found",
+      });
+    }
+
+    const productIndex = user.myProducts.findIndex(
+      (id) => id.toString() === productId
+    );
+
+    if (productIndex === -1) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Product is not in your cart",
+      });
+    }
+
+    user.myProducts.splice(productIndex, 1);
+
+    if (product.customers > 0) {
+      product.customers -= 1;
+    }
+
+    await product.save();
+    await user.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "Product removed from your cart",
+      data: {
+        myProducts: user.myProducts,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "error",
+      message: `Error in removing product: ${err.message}`,
+    });
+  }
+};
 
 const getUserProducts=async(req,res)=>{
-    try{
- const user = await User.findById(req.userId).populate("myProducts");          if(!user){
+    try
+    {
+        const user = await User.findById(req.userId).populate("myProducts");          if(!user){
             return res.status(404).json({status:"fail",message:"User Not Found"})
         }
         res.status(200).json({
             status:"success",
-            message:"product added successfully to ur Cart",
+            message:"product fetched successfully ",
             data :{
                 myProducts:user.myProducts
             }
         })
-
-
-    }catch(err){    
-    res.status(400).json({
+    }catch(err)
+    {    
+        res.status(400).json({
         status:"error",
         message:`error in fetching your products ${err.message}`
     })
-}}
+    }
+}
 
-
-module.exports={addProductToUser,getUserProducts}
+module.exports={addProductToUser,getUserProducts,removeProductFromUser}
