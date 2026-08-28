@@ -1,0 +1,84 @@
+<h1>Team Manager</h1>
+<select [(ngModel)]="viewMode">
+    <option value="card">Card View</option>
+    <option value="list">List View</option>
+</select>
+
+<select [(ngModel)]="selectedDept">
+    <option value="All">All</option>
+
+
+</select>
+
+<input [(ngModel)]="newMember.name" placeholder="Name">
+
+<input [(ngModel)]="newMember.age" type="number" placeholder="Age">
+
+<select [(ngModel)]="newMember.department">
+    @for (dept of departments; track dept) {
+    <option [value]="dept">
+        {{ dept }}
+    </option>
+    }
+</select>
+
+<label>
+    <input type="checkbox" [(ngModel)]="newMember.isAvailable">
+
+    Available
+</label>
+
+<button (click)="addMember()">
+    Add
+</button>
+
+<h2>Team Members</h2>
+@for (member of team; track member) {
+}
+@if (
+selectedDept === 'All' ||
+newMember.department === selectedDept
+) {
+}
+@switch (viewMode) {
+@case ('card') {
+<div class="card">
+
+    <h4>{{ newMember.name }}</h4>
+
+    <p>Age: {{ newMember.age }}</p>
+
+    <p>Department: {{ newMember.department }}</p>
+
+    <p>
+        Status:
+        {{ newMember.isAvailable
+        ? 'Available'
+        : 'Unavailable' }}
+    </p>
+
+    <button (click)="toggleAvailability(newMember)">
+        Toggle
+    </button>
+
+</div>
+}
+@case ('list') {
+<ul>
+    <li>
+        {{newMember.name }}
+        -
+        {{ newMember.department }}
+        -
+        <strong>
+            {{ newMember.isAvailable ? '✔️' : '❌' }}
+        </strong>
+
+        <button (click)="toggleAvailability(newMember)">
+            Toggle
+        </button>
+    </li>
+</ul>
+}
+
+}
