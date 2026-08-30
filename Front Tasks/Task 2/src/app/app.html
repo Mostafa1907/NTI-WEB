@@ -1,0 +1,55 @@
+<div class="page">
+  <h1>Shopping Cart</h1>
+
+  <div class="layout">
+
+    <section class="panel">
+      <h2>Products</h2>
+      <ul class="product-list">
+        @for (product of products; track product.id) {
+          <li class="product-item">
+            <div class="product-info">
+              <span class="name">{{ product.name }}</span>
+              <span class="price">${{ product.price.toFixed(2) }}</span>
+            </div>
+            <button class="btn add" (click)="addToCart(product)">
+              Add To Cart
+            </button>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Cart ({{ itemCount() }})</h2>
+
+      @if (cart().length === 0) {
+        <p class="empty">Your cart is empty</p>
+      } @else {
+        <ul class="cart-list">
+          @for (product of cart(); track product.id) {
+            <li class="cart-item">
+              <div class="product-info">
+                <span class="name">{{ product.name }}</span>
+                <span class="price">${{ product.price.toFixed(2) }}</span>
+              </div>
+              <button class="btn remove" (click)="removeFromCart(product)">
+                Remove
+              </button>
+            </li>
+          }
+        </ul>
+
+        <div class="total">
+          Total: <strong>${{ totalPrice().toFixed(2) }}</strong>
+        </div>
+
+        <button class="btn clear" (click)="clearCart()">
+          Clear Cart
+        </button>
+      }
+    </section>
+
+  </div>
+
+</div>
