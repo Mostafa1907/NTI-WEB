@@ -1,0 +1,140 @@
+.p-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-0);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  height: 100%;
+}
+
+.p-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--surface-200);
+}
+
+.p-card__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--surface-100);
+  overflow: hidden;
+}
+
+.p-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.p-card:hover .p-card__media img {
+  transform: scale(1.06);
+}
+
+.p-card__cat {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  color: var(--navy-800);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  text-transform: capitalize;
+}
+
+.p-card__oos {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(18, 19, 28, 0.55);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.p-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 16px 18px;
+  flex: 1;
+}
+
+.p-card__brand {
+  font-size: 11.5px;
+  color: var(--ink-400);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.p-card__name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-900);
+  line-height: 1.35;
+  min-height: 2.7em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.p-card__footer {
+  margin-top: auto;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.p-card__price {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy-800);
+}
+
+.p-card__cur {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-400);
+}
+
+.p-card__add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: var(--orange-500);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(244, 118, 59, 0.34);
+  transition: background 0.15s ease, transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.p-card__add:hover:not(:disabled) {
+  background: var(--orange-600);
+  transform: scale(1.06);
+}
+
+.p-card__add:disabled {
+  background: var(--surface-200);
+  color: var(--ink-300);
+  box-shadow: none;
+  cursor: not-allowed;
+}

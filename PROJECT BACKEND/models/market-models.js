@@ -18,14 +18,12 @@ const productSchema = new mongoose.Schema(
       lowercase: true,
       enum: {
         values: [
-          "dairy",
-          "bakery",
-          "fruits",
-          "vegetables",
-          "meat",
-          "drinks",
-          "snacks",
-          "household",
+          "ألبان",
+          "المخبز",
+          "الفاكهة",
+          "اللحوم",
+          "المشروبات",
+          "مقبلات",
         ],
         message: "Please provide a valid category",
       },
@@ -62,25 +60,22 @@ const productSchema = new mongoose.Schema(
       max: [5, "Rating cannot be greater than 5"],
     },
 
-    reviews: {
-      type: Number,
-      default: 0,
-      min: [0, "Reviews count cannot be negative"],
-    },
-
     available: {
       type: Boolean,
       default: true,
     },
+    
     customers: {
-      type: Number,
-      default: 0,
+    type: Number,
+    default: 0,
+    min: [0, 'Customers count cannot be negative'],
     },
   },
   {
     timestamps: true,
   }
 );
+productSchema.set('toJSON', { virtuals: true });
 
 const Product = mongoose.model("Product", productSchema);
 

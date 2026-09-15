@@ -1,0 +1,60 @@
+@if (product(); as p) {
+<div class="container pd">
+
+  <div class="pd__crumbs">
+    <a routerLink="/">Home</a>
+    <span>/</span>
+    <span class="pd__crumbs-cat">{{ p.category }}</span>
+    <span>/</span>
+    <span class="pd__crumbs-current">{{ p.name }}</span>
+  </div>
+
+  <div class="pd__grid">
+    <div class="pd__media">
+      <img [src]="getImageUrl(p.imageUrl)" [alt]="p.name" />
+      @if (!p.available) {
+      <span class="pd__oos-tag">Out of stock</span>
+      }
+    </div>
+
+    <div class="pd__info">
+      <span class="badge badge-navy">{{ p.category }}</span>
+      <h1 class="pd__name">{{ p.name }}</h1>
+      <span class="pd__brand">By {{ p.brand }}</span>
+
+
+      <div class="pd__price-row">
+        <span class="pd__price">{{ p.price }} <small>EGP</small></span>
+        @if (p.available) {
+        <span class="badge badge-green">In Stock ({{ p.stock }})</span>
+        } @else {
+        <span class="badge badge-red">Unavailable</span>
+        }
+      </div>
+
+      <p class="pd__desc">
+        يتم اختيار منتجاتنا يوميًا لضمان أعلى مستوى من الطزاجة والجودة، ويتم التعامل معها بعناية من المزرعة وحتى وصولها
+        إلى عربتك.
+        {{ p.name }} من {{ p.brand }} من المنتجات المفضلة لدى عملائنا، ويحظى بثقة أكثر من {{ p.customers }} متسوق في
+        أسواق الحرمين.
+      </p>
+
+      <div class="pd__buy-row">
+        <div class="pd__qty">
+          <button type="button" (click)="dec()" [disabled]="!p.available" aria-label="Decrease quantity">−</button>
+          <span>{{ quantity() }}</span>
+          <button type="button" (click)="inc()" [disabled]="!p.available" aria-label="Increase quantity">+</button>
+        </div>
+
+        <button type="button" class="btn btn-primary pd__add" [disabled]="!p.available" (click)="addToCart()">
+          @if (added()) {
+          Added to Cart ✓
+          } @else {
+          Add to Cart · {{ (p.price * quantity()).toFixed(0) }} EGP
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}

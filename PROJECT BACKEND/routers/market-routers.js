@@ -1,21 +1,36 @@
-const express = require("express")
-const marketControllers=require ("../controllers/market-controllers")
-const authorizeMiddleware = require ("../middlewares/authorize-middleware")
-const authenticateMiddleware =require("../middlewares/authenticate-middleware")
-const upload= require("../middlewares/multer-middleware")
+const express = require("express");
 
+const marketControllers = require("../controllers/market-controllers");
 
-const router = express.Router()    
+const authorizeMiddleware = require("../middlewares/authorize-middleware");
+const authenticateMiddleware = require("../middlewares/authenticate-middleware");
+const upload = require("../middlewares/multer-middleware");
 
-router 
-.route("/")
-.get(marketControllers.getAllProducts)
-.post(authenticateMiddleware,authorizeMiddleware("admin"),upload.single("imageUrl"),marketControllers.createProduct)
+const router = express.Router();
 
-router 
-.route("/:id")
-.get(marketControllers.getProductById)
-.patch(authenticateMiddleware,authorizeMiddleware("admin"),upload.single("imageUrl"),marketControllers.updateProduct)
-.delete(authenticateMiddleware,authorizeMiddleware("admin"),marketControllers.deleteProduct)
+router
+    .route("/")
+    .get(marketControllers.getAllProducts)
+    .post(
+        authenticateMiddleware,
+        authorizeMiddleware("admin"),
+        upload.single("image"),
+        marketControllers.createProduct
+    );
 
-module.exports=router
+router
+    .route("/:id")
+    .get(marketControllers.getProductById)
+    .patch(
+        authenticateMiddleware,
+        authorizeMiddleware("admin"),
+        upload.single("image"),
+        marketControllers.updateProduct
+    )
+    .delete(
+        authenticateMiddleware,
+        authorizeMiddleware("admin"),
+        marketControllers.deleteProduct
+    );
+
+module.exports = router;

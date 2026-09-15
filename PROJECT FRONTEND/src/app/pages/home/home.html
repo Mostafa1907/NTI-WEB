@@ -1,0 +1,78 @@
+<div class="home container">
+
+  <section class="hero">
+    <div class="hero__text">
+      <span class="eyebrow eyebrow--light">أسواق الحرمين</span>
+      <h1 class="hero__title">
+        كل حاجة محتاجها<br />
+        <span class="hero__title-accent">طازجة</span>
+      </h1>
+      <p class="hero__desc">
+        طعام طازج, مقبلات, مشروبات و مستلزمات منزلية أساسية — كلها تُقدَّم من مصدر واحد موثوق.
+      </p>
+      <div class="hero__cta">
+        <a routerLink="/cart" class="btn btn-primary">
+          إظهار عربتي
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+        <a href="#products" class="btn btn-secondary hero__browse">إكتشاف المنتجات</a>
+      </div>
+    </div>
+
+    <div class="hero__badge">
+      <div class="hero__badge-icon">
+        <svg viewBox="0 0 48 48" width="40" height="40" fill="none">
+          <path d="M12 16h24l-2 22a4 4 0 01-4 3.6H18a4 4 0 01-4-3.6L12 16z" fill="#fff" opacity="0.92" />
+          <path d="M17 16v-3a7 7 0 0114 0v3" stroke="var(--navy-900)" stroke-width="2.4" stroke-linecap="round" />
+          <path d="M20 22c1 3 7 3 8 0" stroke="var(--orange-500)" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h3>طازج<br />يومياً</h3>
+      <p>جودة · قيمة · راحة</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__head">
+      <div>
+        <span class="eyebrow">تسوق</span>
+        <h2 class="section__title">تسوق حسب المنتج</h2>
+      </div>
+      
+    </div>
+
+    <div class="cat-grid">
+      @for (cat of categories; track cat.value) {
+      <button type="button" class="cat-chip" [class.cat-chip--active]="activeCategory() === cat.value"
+        (click)="setCategory(cat.value)">
+        <span class="cat-chip__icon">{{ cat.icon }}</span>
+        <span class="cat-chip__label">{{ cat.label }}</span>
+      </button>
+      }
+    </div>
+  </section>
+
+  <section class="section" id="products">
+    <div class="section__head">
+      <div>
+        <span class="eyebrow">منتجاتنا</span>
+        <h2 class="section__title">أشهر المنتجات</h2>
+      </div>
+    </div>
+
+    @if (filteredProducts().length > 0) {
+    <div class="product-grid">
+      @for (product of filteredProducts(); track product.id ?? $index) {
+      <app-product-card [product]="product" (addToCart)="onAddToCart($event)"></app-product-card>
+      }
+    </div>
+    } @else {
+    <app-empty-state icon="🔍" title="No products found"
+      message="Try a different category to see more items."></app-empty-state>
+    }
+  </section>
+
+</div>

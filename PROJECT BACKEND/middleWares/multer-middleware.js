@@ -40,7 +40,6 @@ const fileFilter = (req, file, cb) => {
     const fileExtension = path.extname(file.originalname).toLowerCase()
 
         
-
     if (file.mimetype.startsWith("image/") || allowedExtensions.includes(fileExtension)) {
         cb(null, true)
     } else {

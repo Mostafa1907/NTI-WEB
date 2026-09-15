@@ -1,0 +1,24 @@
+<span class="rating" [class.rating--md]="size === 'md'">
+  <span class="rating__stars" aria-hidden="true">
+    @for (s of stars(); track $index) {
+      <svg viewBox="0 0 20 20" class="star" [class.star--empty]="s === 'empty'">
+        <defs>
+          <linearGradient [id]="'half-' + $index">
+            <stop offset="50%" stop-color="currentColor" />
+            <stop offset="50%" stop-color="transparent" />
+          </linearGradient>
+        </defs>
+        <path
+          [attr.fill]="s === 'half' ? 'url(#half-' + $index + ')' : (s === 'full' ? 'currentColor' : 'none')"
+          stroke="currentColor"
+          stroke-width="1.4"
+          d="M10 1.6l2.47 5.28 5.72.62-4.27 3.94 1.18 5.66L10 14.9l-5.1 2.2 1.18-5.66-4.27-3.94 5.72-.62L10 1.6z"
+        />
+      </svg>
+    }
+  </span>
+  <span class="rating__value">{{ ratingValue().toFixed(1) }}</span>
+  @if (reviews !== null) {
+    <span class="rating__reviews">({{ reviews }})</span>
+  }
+</span>

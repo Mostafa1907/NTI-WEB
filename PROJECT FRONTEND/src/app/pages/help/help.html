@@ -1,0 +1,64 @@
+<div class="container help-page">
+  <div class="page-head">
+    <span class="eyebrow">Support</span>
+    <h1 class="page-head__title">Help Center</h1>
+    <p class="page-head__sub">Answers to common questions, or reach our team directly.</p>
+  </div>
+
+  <div class="help-layout">
+    <div class="help-main">
+      <div class="contact-grid">
+        <div class="card contact-card">
+          <div class="contact-card__icon">📞</div>
+          <h3>Call Us</h3>
+          <p>Available 9 AM – 11 PM daily</p>
+          <a href="tel:+201000000000" class="contact-card__link">+20 100 000 0000</a>
+        </div>
+        <div class="card contact-card">
+          <div class="contact-card__icon">✉️</div>
+          <h3>Email Support</h3>
+          <p>We reply within a few hours</p>
+          <a href="mailto:support@alharamen.markets" class="contact-card__link">support&#64;alharamen.markets</a>
+        </div>
+        <div class="card contact-card">
+          <div class="contact-card__icon">💬</div>
+          <h3>Live Chat</h3>
+          <p>Chat with our team in real time</p>
+          <button type="button" class="btn btn-primary btn-sm">Start Chat</button>
+        </div>
+      </div>
+
+      <h2 class="help-main__title">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        @for (faq of faqs; track $index) {
+        <div class="faq-item card" [class.faq-item--open]="openIndex() === $index">
+          <button type="button" class="faq-item__head" (click)="toggle($index)">
+            <span>{{ faq.question }}</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+          @if (openIndex() === $index) {
+          <p class="faq-item__body">{{ faq.answer }}</p>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <aside class="card help-form">
+      <h3>Send us a message</h3>
+      <p class="help-form__sub">Can't find what you're looking for? Drop us a note.</p>
+      <div class="field">
+        <span>Subject</span>
+        <input type="text" placeholder="Order issue, feedback, etc." />
+      </div>
+      <div class="field">
+        <span>Message</span>
+        <textarea rows="5" placeholder="Tell us more..."></textarea>
+      </div>
+      <button type="button" class="btn btn-primary btn-block">Send Message</button>
+    </aside>
+  </div>
+</div>

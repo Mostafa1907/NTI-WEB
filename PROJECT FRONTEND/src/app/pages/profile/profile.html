@@ -1,0 +1,72 @@
+<div class="container profile-page">
+  <div class="page-head">
+    <span class="eyebrow">الحساب</span>
+    <h1 class="page-head__title">الملف الشخصي</h1>
+  </div>
+
+  <div class="profile-layout">
+    <aside class="card profile-card">
+      <div class="profile-card__avatar-wrap">
+        <img [src]="user.imageUrl" [alt]="user.name" class="profile-card__avatar" />
+        <button type="button" class="profile-card__avatar-edit" aria-label="Change photo">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+          </svg>
+        </button>
+      </div>
+      <h2 class="profile-card__name">{{ user.name }}</h2>
+      <span class="badge badge-navy">{{ user.role }}</span>
+      <p class="profile-card__joined">عضو منذ {{ user.joined }}</p>
+
+    
+    </aside>
+
+    <section class="card profile-details">
+      <div class="profile-details__head">
+        <h3>المعلومات الشخصية</h3>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="toggleEdit()">
+          @if (editing()) { إلغاء } @else { تعديل الملف الشخصي }
+        </button>
+      </div>
+
+      <div class="form-grid">
+        <label class="field">
+          <span>الإسم كامل</span>
+          <input type="text" [value]="user.name" [disabled]="!editing()" />
+        </label>
+        <label class="field">
+          <span>البريد</span>
+          <input type="email" [value]="user.email" [disabled]="!editing()" />
+        </label>
+        <label class="field">
+          <span>رقم الهاتف</span>
+          <input type="tel" [value]="user.phone" [disabled]="!editing()" />
+        </label>
+        <label class="field">
+          <span>دور</span>
+          <input type="text" [value]="user.role" disabled />
+        </label>
+      </div>
+
+      @if (editing()) {
+      <div class="profile-details__actions">
+        <button type="button" class="btn btn-primary" (click)="toggleEdit()">حفظ التغييرات</button>
+        <button type="button" class="btn btn-ghost" (click)="toggleEdit()">Discard</button>
+      </div>
+      }
+
+      <div class="profile-details__divider"></div>
+
+      <div class="profile-details__danger">
+        <div>
+          <h4>تسجيل خروج</h4>
+          <p>.ستحتاج إلى تسجيل الدخول مرة أخرى للوصول إلى حسابك</p>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm"
+         (click)="logout()">تسجيل خروج</button>
+      </div>
+    </section>
+  </div>
+</div>

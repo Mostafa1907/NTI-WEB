@@ -70,26 +70,26 @@ const getProductById = async (req, res) => {
  
 const updateProduct = async (req, res) => {
   try {
-    const product = await Product.findById(
-      req.params.id
-    )
+    const product = await Product.findById(req.params.id);
 
-       if (!product) {
+    if (!product) {
       return res
         .status(404)
         .json({ status: "error", message: "Product not found" });
     }
-        
-     if(req.file){
-      req.body.imageUrl=req.file.filename
-      if(product.imageUrl){
-        deleteUploadedFile("products",product.imageUrl)
+       
+    if (req.file) {
+      req.body.imageUrl = req.file.filename;
+      if (product.imageUrl) {
+        deleteUploadedFile("products", product.imageUrl);
       }
     }
-        const updatedProduct= await product.save()
 
+    // 1. ادمج التعديلات الموجودة في req.body في كائن المنتج أولاً
+    Object.assign(product, req.body);
 
-    Object.assign(product,req.body)
+    // 2. احفظ المنتج بعد التعديل
+    const updatedProduct = await product.save();
 
     res.status(200).json({
       status: "success",

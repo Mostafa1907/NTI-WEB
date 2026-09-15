@@ -1,0 +1,198 @@
+<div class="admin-shell">
+  <header>
+    <a routerLink="/" class="brand">
+      <span class="mark">AH</span>
+      <span><b>AL HARAMEN</b><small>MARKETS ADMIN</small></span>
+    </a>
+    <div class="actions">
+      <span class="user">AD <b>Admin</b></span>
+      <button (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <div>
+        <span class="eyebrow">STORE OVERVIEW</span>
+        <h1>Dashboard</h1>
+        <p>Manage your marketplace from one place.</p>
+      </div>
+      <div class="welcome-actions">
+        <a routerLink="/">← View store</a>
+      </div>
+    </section>
+
+    <section class="stats">
+      <article><i>▣</i>
+        <div><small>Total products</small><strong>{{products.length}}</strong><span>Catalogue</span></div>
+      </article>
+      <article><i>▤</i>
+        <div><small>Orders</small><strong>{{recentOrders().length}}</strong><span>This week</span></div>
+      </article>
+      <article><i>◉</i>
+        <div><small>Revenue</small><strong>{{revenue | number}} EGP</strong><span>Mock sales</span></div>
+      </article>
+      <article><i>!</i>
+        <div><small>Low stock</small><strong>{{lowStock.length}}</strong><span>Needs attention</span></div>
+      </article>
+    </section>
+
+    <section class="panel product-panel">
+      <div class="head product-head">
+        <div>
+          <h2>Products</h2>
+          <p>Add, edit and delete products — frontend demo only.</p>
+        </div>
+        <button class="primary-btn" (click)="openAddProduct()">+ Add product</button>
+      </div>
+
+      <div class="product-table">
+        <div class="table-header">
+          <span>Product</span>
+          <span>Category</span>
+          <span>Price</span>
+          <span>Stock</span>
+          <span>Status</span>
+          <span>Actions</span>
+        </div>
+
+        <div class="product-row" *ngFor="let p of products ">
+          <div class="product-cell">
+            <img
+  [src]="'http://localhost:5000/api/v1/uploads/products/' + p.imageUrl"
+  [alt]="p.name"
+>
+            <div>
+              <b>{{p.name}}</b>
+              <small>{{p.brand}}</small>
+            </div>
+          </div>
+
+          <span class="category-text">{{p.category | titlecase}}</span>
+          <strong>{{p.price | number}} EGP</strong>
+          <span [class.low-stock]="p.stock <= 15">{{p.stock}}</span>
+
+          <span class="status" [class.out]="!p.available">
+            {{p.available ? 'Active' : 'Out of stock'}}
+          </span>
+
+          <div class="actions-cell">
+            <button class="edit-btn" (click)="openEditProduct(p)">Edit</button>
+            <button class="delete-btn" (click)="deleteProduct(p)">Delete</button>
+          </div>
+        </div>
+
+        <div class="empty-products" *ngIf="products.length === 0">
+          <strong>No products yet</strong>
+          <span>Add your first product using the button above.</span>
+          <button class="primary-btn" (click)="openAddProduct()">+ Add product</button>
+        </div>
+      </div>
+    </section>
+
+   <div class="recent-orders-container">
+
+  <div class="recent-orders-header">
+    <div>
+      <h3>Recent orders</h3>
+      <p>Customer activity</p>
+    </div>
+  </div>
+
+  @for (order of recentOrders(); track order.id) {
+
+    <div class="order-card">
+
+      <div class="order-id">
+        ORD-{{ order.id?.slice(-5) }}
+      </div>
+
+      <div class="order-date">
+        {{ order.createdAt | date:'yyyy-MM-dd' }}
+      </div>
+
+      <div class="order-status">
+        {{ order.status }}
+      </div>
+
+      <div class="order-total">
+        {{ order.total }} EGP
+      </div>
+
+    </div>
+
+  }
+
+</div>
+
+    <section class="panel">
+      <div class="head">
+        <div>
+          <h2>Categories</h2>
+          <p>Products by category</p>
+        </div>
+      </div>
+      <div class="cats">
+        <div *ngFor="let c of categories || []">
+          <b>{{c.label}}</b>
+          <small>{{getCategoryCount(c.value)}} products</small>
+          <div><i [style.width.%]="getCategoryBarWidth(c.value)"></i></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+ <div class="modal-backdrop" *ngIf="showProductForm" (click)="closeProductForm()">
+    <section class="product-modal" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">{{editingProductId ? 'EDIT PRODUCT' : 'NEW PRODUCT'}}</span>
+          <h2>{{editingProductId ? 'Edit product' : 'Add product'}}</h2>
+        </div>
+        <button class="close-btn" type="button" (click)="closeProductForm()">×</button>
+      </div>
+
+      <!-- لو بنضيف منتج جديد، اعرض كومبوننت الإضافة المنفصل -->
+      @if (editingProductId === null) {
+        <app-add-product-form
+          (productAdded)="onProductCreated($event)"
+          (cancelled)="closeProductForm()">
+        </app-add-product-form>
+      } @else {
+        <!-- لو بنعدل، استخدم فورم التعديل القديمة بالـ FormData -->
+        <form (ngSubmit)="saveProduct()">
+          <div class="form-grid">
+            <label>Product name
+              <input [(ngModel)]="form.name" name="name" placeholder="Fresh Milk" required>
+            </label>
+            <label>Brand
+              <input [(ngModel)]="form.brand" name="brand" placeholder="Almarai" required>
+            </label>
+            <label>Category
+              <select [(ngModel)]="form.category" name="category">
+                <option *ngFor="let category of categories" [ngValue]="category.value">{{category.label}}</option>
+              </select>
+            </label>
+            <label>Price (EGP)
+              <input [(ngModel)]="form.price" name="price" type="number" min="0" required>
+            </label>
+            <label>Stock
+              <input [(ngModel)]="form.stock" name="stock" type="number" min="0" required>
+            </label>
+            <label>Product Image
+              <input type="file" (change)="onFileSelected($event)" accept="image/*">
+            </label>
+          </div>
+          <label class="availability">
+            <input [(ngModel)]="form.available" name="available" type="checkbox">
+            Product is available for customers
+          </label>
+          <div class="modal-actions">
+            <button class="secondary-btn" type="button" (click)="closeProductForm()">Cancel</button>
+            <button class="primary-btn" type="submit">Save changes</button>
+          </div>
+        </form>
+      }
+    </section>
+  </div>
+</div>
